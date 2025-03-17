@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alarm Clock</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f0f8ff; /* Light blue background */
+            text-align: center;
+            padding: 50px;
+            color: #333; /* Dark gray text */
+        }
+
+        h1 {
+            font-size: 48px;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        .emoji {
+            font-size: 80px; /* Large clock emoji */
+            margin-bottom: 20px;
+        }
+
+        .clock {
+            font-size: 72px; /* Larger font size for the clock */
+            margin-bottom: 20px;
+            color: #ff6347; /* Tomato color for the clock */
+        }
+
+        .input-container {
+            margin-top: 20px;
+        }
+
+        .input-container input {
+            font-size: 20px;
+            padding: 10px;
+            width: 150px;
+            border: 2px solid #ff6347; /* Tomato border */
+            border-radius: 5px;
+        }
+
+        .input-container button {
+            font-size: 20px;
+            padding: 10px;
+            margin-left: 10px;
+            cursor: pointer;
+            background-color: #ff6347; /* Tomato button color */
+            color: white;
+            border: none;
+            border-radius: 5px;
+        }
+
+        .input-container button:hover {
+            background-color: #ff4500; /* Darker red when hovering */
+        }
+
+        .message {
+            margin-top: 20px;
+            font-size: 24px;
+            color: #ff6347; /* Tomato color for the message */
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Clock Emoji -->
+    <div class="emoji">⏰</div>
+
+    <h1>Alarm Clock</h1>
+
+    <!-- Current Time Display -->
+    <div class="clock" id="current-time">00:00:00</div>
+
+    <!-- Input to set the alarm -->
+    <div class="input-container">
+        <input type="time" id="alarm-time">
+        <button onclick="setAlarm()">Set Alarm</button>
+    </div>
+
+    <!-- Alarm message -->
+    <div class="message" id="alarm-message"></div>
+
+    <script>
+        let alarmTime = null;
+
+        // Function to display current time
+        function updateTime() {
+            const currentTime = new Date();
+            const hours = currentTime.getHours().toString().padStart(2, '0');
+            const minutes = currentTime.getMinutes().toString().padStart(2, '0');
+            const seconds = currentTime.getSeconds().toString().padStart(2, '0');
+            document.getElementById("current-time").textContent = `${hours}:${minutes}:${seconds}`;
+        }
+
+        // Function to set the alarm
+        function setAlarm() {
+            const alarmInput = document.getElementById("alarm-time").value;
+            const [alarmHours, alarmMinutes] = alarmInput.split(":");
+            alarmTime = { hours: parseInt(alarmHours), minutes: parseInt(alarmMinutes) };
+
+            document.getElementById("alarm-message").textContent = `Alarm set for ${alarmHours}:${alarmMinutes}`;
+        }
+
+        // Function to check if it's time for the alarm
+        function checkAlarm() {
+            if (alarmTime) {
+                const currentTime = new Date();
+                const currentHours = currentTime.getHours();
+                const currentMinutes = currentTime.getMinutes();
+
+                if (currentHours === alarmTime.hours && currentMinutes === alarmTime.minutes) {
+                    document.getElementById("alarm-message").textContent = "ALARM! Time to wake up!";
+                    alert("⏰ ALARM! Time to wake up! ⏰");
+                }
+            }
+        }
+
+        // Update time every second and check the alarm
+        setInterval(() => {
+            updateTime();
+            checkAlarm();
+        }, 1000);
+    </script>
+</body>
+</html>
